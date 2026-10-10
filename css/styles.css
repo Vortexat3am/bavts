@@ -496,7 +496,7 @@ p { margin: 0 0 1em; }
   border-radius: var(--radius);
   box-shadow: var(--shadow-soft);
 }
-.about-thumb img { width: 100%; }
+.about-thumb img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; } /* saves its space before it loads */
 .content-title {
   font-size: 1.75rem;
   font-weight: 800;
