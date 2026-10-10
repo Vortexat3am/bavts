@@ -1,0 +1,213 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900);
+
+body {
+    margin: 0;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 4vw;
+}
+
+.section-content {
+    max-width: 1170px;
+    width: 100%;
+}
+
+.hero-section {
+    background-image: url(../images/background/83FCBCDE-E617-4A28-AD8D-6AF42FD8BA25.jpeg);
+    background-size: cover;
+    box-shadow: inset 10000px 10000px 10000px rgba(0, 0, 0, 0.5);
+}
+
+.hero-logo {
+    width: 30%;
+}
+
+.hero-section-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.hero-text h1 {
+    font-family: "Raleway", sans-serif;
+    color: #fff;
+    font-size: 50px;
+}
+
+.hero-text p {
+    font-family: "Raleway", sans-serif;
+    color: #fff;
+    font-size: 24px;
+}
+
+.service-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 40px;
+}
+
+.services {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 4%;
+    padding-block: 40px;
+}
+
+.service-card {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 3px 3px 0 5px #1592cb;
+    transition: 0.3s;
+}
+
+.service-card:hover {
+    transform: translate(-20px, -20px);
+}
+
+.service-btn {
+    background-color: #1592cb;
+    padding: 10px 20px;
+    color: #fff;
+    border: 1px solid #1592cb;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.service-btn:hover {
+    background-color: transparent;
+}
+
+.price {
+    color:#1592cb
+}
+
+.cta {
+    background-image: url(../images/background/pexels-frank-cone-2495173.jpeg);
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    box-shadow: inset 10000px 10000px 10000px rgba(0, 0, 0, 0.6);
+}
+
+.cta-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cta-link {
+    padding: 15px 30px;
+    border: 5px;
+    box-sizing: border-box;
+    transition: 0.3s;
+    font-size: 25px;
+    position: relative;
+}
+
+.cta-link::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left:0;
+    background-color: #1592cb;
+    z-index: 2;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.cta-link::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 10px;
+    left:0;
+    background-color: #085274;
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.cta-link span {
+    position: relative;
+    z-index: 3;
+    transition: 0.3s;
+    top:0;
+    color: #ffffff;
+
+}
+
+.cta-link:hover::before {
+    transform: translateY(5px);
+}
+
+.cta-link:hover.cta-link span {
+    top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .services {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .service-card {
+        width: 100%;
+    }
+
+    .service-card:hover {
+        transform: translate(-10px, -10px);
+    }
+
+    .hero-text h1 {
+        font-size: 35px;
+        margin: 0;
+        margin-top: 10px;
+    }
+
+    .hero-text p {
+        padding-top: 15px;
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .hero-logo {
+        display: none;
+    }
+
+    .hero-text h1 {
+        text-align: center;
+    }
+
+    .hero-text p {
+        text-align: center;
+    }
+
+    .hero-section {
+        padding-block: 30px;
+    }
+}
+@media screen and (max-width: 420px) {
+    .service-card h2 {
+        font-size: 25px;
+    }
+
+    .hero-text h1 {
+        font-size: 25px;
+    }
+}
+

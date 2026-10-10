@@ -1,0 +1,7 @@
+RewriteEngine On 
+RewriteCond %{HTTPS} off 
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Short project links: my-domain.com/projects/primera forwards to project.html?id=primera
+# (the word after /projects/ is the project's id in js/projects.js)
+RewriteRule ^projects/([A-Za-z0-9_-]+)/?$ /project.html?id=$1 [R=302,L]
