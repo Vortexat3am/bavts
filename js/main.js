@@ -1,6 +1,4 @@
-/* ==========================================================
-   BavtsBackStacks: site scripts (no libraries)
-   ========================================================== */
+
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SLIDE_TIME = 9000; // keep in sync with --slide-time in styles.css
@@ -267,16 +265,7 @@ function initShotSliders() {
   });
 }
 
-/* ---------- Logo loading screen ----------
-   Every page starts behind the logo cover, which fades away once the page has loaded.
-   Clicking a link to another page, or to a section on this page, brings it back for
-   a moment, so moving around the site always looks the same.
-   The bar under the logo shows progress:
-   - page load: it fills while the page loads, finishes, then the cover lifts
-   - going to another page: it fills to 30% here, and the next page carries on from 30%
-   - jumping to a section on this page: it fills all the way during the jump
-   While the cover is up, html has the "cover-up" class: the hero/page-title
-   animations wait (see the CSS) and the scroll animations wait through whenUncovered(). */
+/* ---------- Logo loading screen ---------- */
 function initPageCover() {
   const cover = document.querySelector(".page-cover");
   if (!cover) return;
