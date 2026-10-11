@@ -848,7 +848,35 @@ p { margin: 0 0 1em; }
   border-radius: var(--radius-sm);
   transition: border-color .2s, box-shadow .2s, background-color .2s;
 }
-.field textarea { resize: vertical; min-height: 230px; }
+.field textarea { display: block; resize: vertical; min-height: 230px; }
+/* the message box gets our own drag handle (main.js); without JavaScript the browser's normal one stays */
+.textarea-wrap { position: relative; }
+.js .textarea-wrap textarea { resize: none; }
+.textarea-grip {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--blue);
+  background: rgba(21, 146, 203, .1);
+  cursor: ns-resize;
+  touch-action: none;
+  transition: background-color .2s, color .2s, transform .2s var(--spring);
+}
+/* the grip lines (a mask, so they can change color) */
+.textarea-grip::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M14 3L3 14M14 8.5l-5.5 5.5M14 13.5l-.5.5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M14 3L3 14M14 8.5l-5.5 5.5M14 13.5l-.5.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+html:not(.js) .textarea-grip { display: none; }
+.textarea-grip:hover { background: rgba(21, 146, 203, .2); transform: scale(1.08); }
+.textarea-grip.is-dragging { background: var(--blue); color: var(--white); transform: scale(1.08); }
 .field input::placeholder,
 .field textarea::placeholder { color: #9aa1a9; }
 .field input:focus,

@@ -344,7 +344,10 @@
           </div>
           <div class="field">
             <label class="sr-only" for="your_message">Your message</label>
-            <textarea id="your_message" name="your_message" rows="6" placeholder="Your Message" required></textarea>
+            <div class="textarea-wrap">
+              <textarea id="your_message" name="your_message" rows="6" placeholder="Your Message" required></textarea>
+              <span class="textarea-grip" aria-hidden="true"></span>
+            </div>
             <p class="field-error" id="message_error">Please enter your message.</p>
           </div>
           <button class="btn btn-solid" type="submit" id="send_message">Send Message</button>

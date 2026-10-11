@@ -376,6 +376,37 @@ function initPageCover() {
   });
 }
 
+/* ---------- Message box: our own drag handle to make it taller or shorter ---------- */
+function initMessageGrip() {
+  document.querySelectorAll(".textarea-grip").forEach((grip) => {
+    const box = grip.parentElement.querySelector("textarea");
+    const min = parseFloat(getComputedStyle(box).minHeight) || 150;
+    const max = 640;
+
+    grip.addEventListener("pointerdown", (event) => {
+      event.preventDefault(); // don't start selecting text
+      try { grip.setPointerCapture(event.pointerId); } catch (e) {}
+      grip.classList.add("is-dragging");
+      const startY = event.clientY;
+      const startHeight = box.offsetHeight;
+
+      const move = (e) => {
+        box.style.height = `${Math.min(max, Math.max(min, startHeight + e.clientY - startY))}px`;
+      };
+      const stop = () => {
+        grip.classList.remove("is-dragging");
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", stop);
+        window.removeEventListener("pointercancel", stop);
+      };
+      // listen on the whole window, so the drag keeps working even when the pointer leaves the handle
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", stop);
+      window.addEventListener("pointercancel", stop);
+    });
+  });
+}
+
 /* ---------- Pricing buttons prefill the subject ---------- */
 function initSubjectPrefill() {
   document.querySelectorAll("[data-subject]").forEach((btn) => {
@@ -450,4 +481,5 @@ initCountUp();
 initShotSliders();
 initPageCover();
 initSubjectPrefill();
+initMessageGrip();
 initContactForm();
