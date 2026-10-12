@@ -6,6 +6,10 @@
 
 $to = 'houghe@bavts.org';
 
+// The form only checks for the exact word "sent", so PHP warnings must never be printed into the reply
+// (they still go to the server's error log).
+ini_set('display_errors', '0');
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     http_response_code(405);
     echo 'failed';
@@ -44,15 +48,23 @@ $headers  = "From: BavtsBackStacks website <{$from}>\r\n";
 $headers .= "Reply-To: {$email}\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "Content-Transfer-Encoding: 8bit";
+$headers .= "Content-Transfer-Encoding: quoted-printable";
 
-// encoded so names or subjects with accents/emoji arrive intact
-$mail_subject = '=?UTF-8?B?' . base64_encode('Contact Us: ' . $subject) . '?=';
+// Subject: encoded so accents/emoji arrive intact, and split into short pieces as email requires
+$subject_line = 'Contact Us: ' . $subject;
+if (function_exists('mb_encode_mimeheader')) {
+    $mail_subject = mb_encode_mimeheader($subject_line, 'UTF-8', 'B', "\r\n");
+} else {
+    $mail_subject = '=?UTF-8?B?' . base64_encode($subject_line) . '?=';
+}
 
 $body  = "New message from the BavtsBackStacks contact form\n\n";
 $body .= "Name: {$name}\n";
 $body .= "Email: {$email}\n";
 $body .= "Subject: {$subject}\n\n";
 $body .= $message . "\n";
+
+// quoted-printable keeps every line short, so a long message with no line breaks still arrives intact
+$body = quoted_printable_encode(str_replace("\n", "\r\n", $body));
 
 echo mail($to, $mail_subject, $body, $headers) ? 'sent' : 'failed';

@@ -272,6 +272,20 @@ function initShotSliders() {
 
     slider.querySelector(".slider-arrow.prev").addEventListener("click", () => show(current - 1));
     slider.querySelector(".slider-arrow.next").addEventListener("click", () => show(current + 1));
+
+    // swipe left/right on touch screens (up/down still scrolls the page)
+    let start = null;
+    slider.addEventListener("touchstart", (e) => {
+      start = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+    slider.addEventListener("touchend", (e) => {
+      if (!start) return;
+      const dx = e.changedTouches[0].clientX - start.x;
+      const dy = e.changedTouches[0].clientY - start.y;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
+      start = null;
+    });
+
     show(current);
   });
 }
