@@ -1,2 +1,4 @@
-User-agent: * 
-Crawl-Delay: 20
+User-agent: *
+Disallow: /archive/
+
+Sitemap: https://bavtsbackstacks.org/sitemap.xml

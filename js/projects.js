@@ -78,30 +78,4 @@ const PROJECTS = [
     mobile: "images/portfolio/freezer-mobile.jpg",
     featured: true,
   },
-  {
-    id: "test",
-    title: "The Freezer Ministry & Garden Gatherers",
-    shortTitle: "Freezer Ministry",
-    category: "Nonprofit",
-    url: "https://freezerministry.org/",
-    builtWith: "WordPress + Divi",
-    summary: "A site for a Bethlehem-area program that connects churches, schools, and community groups through shared meals.",
-    description: [
-      "The Freezer Ministry and Garden Gatherers share prepared frozen meals and run free farmers markets at Bethlehem Area elementary and middle schools.",
-      "The site tells their story, shows their impact, and helps people find events, see who they serve, and donate.",
-    ],
-    highlights: [
-      "Impact counters for meals, fresh produce, and volunteer hours",
-      "Events pages, including seminars",
-      "An Organizations Served page and annual report",
-      "A donation page",
-    ],
-    images: [
-      "images/portfolio/freezer-desktop-1.jpg",
-      "images/portfolio/freezer-desktop-2.jpg",
-      "images/portfolio/freezer-desktop-3.jpg",
-    ],
-    mobile: "images/portfolio/freezer-mobile.jpg",
-    featured: true,
-  },
 ];

@@ -69,7 +69,7 @@ function initSlider() {
   };
 
   // reasons the slider is paused; it only runs when none of them apply
-  const paused = { offscreen: false, tabHidden: document.hidden, keyboard: false, cover: document.documentElement.classList.contains("cover-up") };
+  const paused = { offscreen: false, tabHidden: document.hidden, keyboard: false, cover: document.documentElement.classList.contains("cover-up"), user: false };
   const canRun = () => !reducedMotion && !Object.values(paused).some(Boolean);
 
   const stop = () => {
@@ -97,6 +97,17 @@ function initSlider() {
   hero.querySelector(".prev").addEventListener("click", () => go(current - 1));
   hero.querySelector(".next").addEventListener("click", () => go(current + 1));
   dots.forEach((dot, i) => dot.addEventListener("click", () => go(i)));
+
+  // pause/play button: stays paused until pressed again (also stops the background motion, see CSS)
+  const pauseButton = hero.querySelector(".slide-pause");
+  if (pauseButton) {
+    pauseButton.addEventListener("click", () => {
+      const pause = !paused.user;
+      hero.classList.toggle("is-paused", pause);
+      pauseButton.setAttribute("aria-label", pause ? "Play slideshow" : "Pause slideshow");
+      setPaused("user", pause);
+    });
+  }
 
   // pause while keyboard users are tabbing through it (mouse clicks don't count)
   hero.addEventListener("focusin", (e) => {
@@ -396,6 +407,22 @@ function initMessageGrip() {
   });
 }
 
+/* ---------- Links that open a new tab say so (for screen readers) ---------- */
+function initNewTabNotes() {
+  const note = " (opens in a new tab)";
+  document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+    const label = link.getAttribute("aria-label");
+    if (label) {
+      if (!label.includes("new tab")) link.setAttribute("aria-label", label + note);
+    } else if (!link.querySelector(".sr-only")) {
+      const hidden = document.createElement("span");
+      hidden.className = "sr-only";
+      hidden.textContent = note;
+      link.append(hidden);
+    }
+  });
+}
+
 /* ---------- Pricing buttons prefill the subject ---------- */
 function initSubjectPrefill() {
   document.querySelectorAll("[data-subject]").forEach((btn) => {
@@ -431,6 +458,8 @@ function initContactForm() {
       const input = document.getElementById(id);
       const ok = valid(input.value.trim());
       input.setAttribute("aria-invalid", !ok);
+      if (ok) input.removeAttribute("aria-describedby");
+      else input.setAttribute("aria-describedby", error); // screen readers read the error with the field
       document.getElementById(error).classList.toggle("is-visible", !ok);
       if (!ok && !firstInvalid) firstInvalid = input;
     });
@@ -469,6 +498,7 @@ initReveal();
 initCountUp();
 initShotSliders();
 initPageCover();
+initNewTabNotes();
 initSubjectPrefill();
 initMessageGrip();
 initContactForm();

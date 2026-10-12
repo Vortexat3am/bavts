@@ -3,10 +3,12 @@
 :root {
   --blue: #1592cb;
   --blue-dark: #0783af;
+  --blue-strong: #127eaf; /* small blue text, and blue backgrounds behind white text (4.5:1 contrast) */
+  --blue-deep: #0d6894;   /* hover for the above */
   --black: #1a1a1a;
   --heading: #262626;
   --text: #545454;
-  --text-light: #777;
+  --text-light: #6b6b6b; /* passes 4.5:1 on white and on the grey sections */
   --gray-bg: #f1f2f7;
   --tile-1: #f5f6f8;
   --tile-2: #eef0f3;
@@ -51,11 +53,11 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 
 a {
-  color: var(--blue);
+  color: var(--blue-strong);
   text-decoration: none;
   transition: color .2s ease;
 }
-a:hover { color: var(--blue-dark); }
+a:hover { color: var(--blue-deep); }
 
 h1, h2, h3 {
   color: var(--heading);
@@ -79,7 +81,7 @@ p { margin: 0 0 1em; }
 
 .skip-link {
   position: absolute; left: 16px; top: -100px; z-index: 100;
-  background: var(--blue); color: var(--white); padding: 10px 16px; font-weight: 700; border-radius: var(--radius-sm);
+  background: var(--blue-strong); color: var(--white); padding: 10px 16px; font-weight: 700; border-radius: var(--radius-sm);
 }
 .skip-link:focus { top: 12px; color: var(--white); }
 
@@ -87,6 +89,11 @@ p { margin: 0 0 1em; }
   outline: 2px solid var(--blue);
   outline-offset: 3px;
 }
+/* on blue panels a blue outline would disappear, so it turns white there */
+.price-card-featured :focus-visible,
+.price-extra :focus-visible,
+.cta-band :focus-visible,
+.skip-link:focus-visible { outline-color: var(--white); }
 
 /* Linecons icons (solid shapes) */
 .glyph { display: block; fill: currentColor; }
@@ -124,14 +131,14 @@ p { margin: 0 0 1em; }
 }
 .btn-outline-light:hover { background: var(--blue); border-color: var(--blue); color: var(--white); }
 
-.btn-outline { color: var(--blue); }
-.btn-outline:hover { background: var(--blue); color: var(--white); }
+.btn-outline { color: var(--blue-strong); }
+.btn-outline:hover { background: var(--blue-strong); border-color: var(--blue-strong); color: var(--white); }
 
-.btn-solid { background: var(--blue); border-color: var(--blue); color: var(--white); padding: 14px 36px; }
-.btn-light { background: var(--white); border-color: var(--white); color: var(--blue); }
+.btn-solid { background: var(--blue-strong); border-color: var(--blue-strong); color: var(--white); padding: 14px 36px; }
+.btn-light { background: var(--white); border-color: var(--white); color: var(--blue-strong); }
 .btn-light:hover { background: var(--black); border-color: var(--black); color: var(--white); }
 
-.btn-solid:hover { background: var(--blue-dark); border-color: var(--blue-dark); color: var(--white); }
+.btn-solid:hover { background: var(--blue-deep); border-color: var(--blue-deep); color: var(--white); }
 
 /* ==========================================================
    Menu: transparent over the hero, white once you scroll
@@ -212,7 +219,7 @@ p { margin: 0 0 1em; }
 
 .is-scrolled .site-nav a { color: var(--heading); }
 .is-scrolled .site-nav a:hover,
-.is-scrolled .site-nav a.is-current { color: var(--blue); }
+.is-scrolled .site-nav a.is-current { color: var(--blue-strong); }
 
 .nav-toggle {
   display: none;
@@ -373,18 +380,42 @@ p { margin: 0 0 1em; }
 .slide-nav:focus-visible { opacity: 1; transform: none; }
 
 /* dots: the active one stretches into a bar that fills up as a timer */
-.slide-dots {
+.slide-controls {
   position: absolute;
   left: 50%;
   bottom: 80px;
   z-index: 2;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 20px;
 }
+.slide-dots { display: flex; gap: 14px; }
+
+/* pause/play: stops the slideshow, the background zoom and the bouncing arrow */
+.slide-pause {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color .2s, border-color .2s;
+}
+.slide-pause:hover { background: rgba(255, 255, 255, .15); border-color: var(--white); }
+.slide-pause svg { width: 14px; height: 14px; }
+.slide-pause .icon-pause { fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; }
+.slide-pause .icon-play { display: none; fill: currentColor; }
+.hero.is-paused .slide-pause .icon-pause { display: none; }
+.hero.is-paused .slide-pause .icon-play { display: block; }
+.hero.is-paused .hero-bg::before,
+.hero.is-paused .next-section { animation-play-state: paused; }
 .dot {
   position: relative;
-  overflow: hidden;
   width: 10px;
   height: 10px;
   padding: 0;
@@ -396,10 +427,17 @@ p { margin: 0 0 1em; }
 }
 .dot.is-active { width: 36px; background: var(--blue); border-color: var(--blue); }
 .dot.is-timing { background: rgba(21, 146, 203, .3); }
+/* invisible, larger tap area (WCAG asks for 24x24) */
+.dot::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+}
 .dot.is-timing::after {
   content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: var(--blue);
   transform-origin: left;
   animation: dot-fill var(--slide-time) linear both;
@@ -501,7 +539,7 @@ p { margin: 0 0 1em; }
 }
 .content-kicker {
   font-weight: 700;
-  color: var(--blue);
+  color: var(--blue-strong);
   text-transform: uppercase;
   letter-spacing: .06em;
   font-size: .8125rem;
@@ -660,14 +698,14 @@ p { margin: 0 0 1em; }
 
 /* featured card */
 .price-card-featured {
-  background: linear-gradient(150deg, var(--blue), var(--blue-dark));
+  background: linear-gradient(150deg, var(--blue-strong), var(--blue-deep));
   border-color: transparent;
 }
 .price-card-featured h3,
 .price-card-featured .price-num,
 .price-card-featured .checklist li { color: var(--white); }
 .price-card-featured .price-desc,
-.price-card-featured .price-per { color: rgba(255, 255, 255, .78); }
+.price-card-featured .price-per { color: var(--white); }
 .price-card-featured .price { border-color: rgba(255, 255, 255, .22); }
 .price-card-featured .price-icon { background: rgba(255, 255, 255, .16); color: var(--white); }
 .price-card-featured .checklist li::before {
@@ -683,7 +721,7 @@ p { margin: 0 0 1em; }
   margin-top: 30px;
   padding: 30px 40px;
   border-radius: var(--radius);
-  background: var(--blue);
+  background: var(--blue-strong);
 }
 .price-extra h3 {
   font-size: 1.125rem;
@@ -692,7 +730,7 @@ p { margin: 0 0 1em; }
   margin-bottom: .25em;
   color: var(--white);
 }
-.price-extra p { margin: 0; color: rgba(255, 255, 255, .85); }
+.price-extra p { margin: 0; color: var(--white); }
 .price-extra .btn { flex: none; }
 
 /* ---------- How it works ---------- */
@@ -715,7 +753,7 @@ p { margin: 0 0 1em; }
   right: calc((100% - 90px) / 8);
   height: 2px;
   margin-top: -1px;
-  background: var(--blue);
+  background: var(--blue-strong);
   transform-origin: left;
 }
 .step { position: relative; text-align: center; }
@@ -729,13 +767,13 @@ p { margin: 0 0 1em; }
   margin: 0 auto 26px;
   border: 4px solid var(--white);
   border-radius: 50%;
-  background: var(--blue);
+  background: var(--blue-strong);
   color: var(--white);
   font-size: 1.125rem;
   font-weight: 800;
   letter-spacing: .04em;
   line-height: 1;
-  box-shadow: 0 0 0 2px var(--blue), 0 8px 18px rgba(16, 24, 40, .12);
+  box-shadow: 0 0 0 2px var(--blue-strong), 0 8px 18px rgba(16, 24, 40, .12);
 }
 .step h3 {
   font-size: 1.25rem;
@@ -753,7 +791,7 @@ p { margin: 0 0 1em; }
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--blue);
+  color: var(--blue-strong);
 }
 .faq-heading {
   margin: 0 0 48px;
@@ -874,7 +912,7 @@ html:not(.js) .textarea-grip { display: none; }
 .textarea-grip:hover { background: rgba(21, 146, 203, .2); transform: scale(1.08); }
 .textarea-grip.is-dragging { background: var(--blue); color: var(--white); transform: scale(1.08); }
 .field input::placeholder,
-.field textarea::placeholder { color: #9aa1a9; }
+.field textarea::placeholder { color: #6b7280; }
 .field input:focus,
 .field textarea:focus {
   outline: none;
@@ -1176,7 +1214,7 @@ html:not(.js) .textarea-grip { display: none; }
 }
 
 /* ---------- Call-to-action band ---------- */
-.cta-band { background: var(--blue); padding-block: 64px; }
+.cta-band { background: var(--blue-strong); padding-block: 64px; }
 .cta-inner {
   display: flex;
   align-items: center;
@@ -1190,7 +1228,7 @@ html:not(.js) .textarea-grip { display: none; }
   text-transform: uppercase;
   color: var(--white);
 }
-.cta-inner p { margin: 0; color: rgba(255, 255, 255, .85); font-size: 1.0625rem; }
+.cta-inner p { margin: 0; color: var(--white); font-size: 1.0625rem; }
 .cta-inner .btn { flex: none; padding: 16px 40px; font-size: .9375rem; }
 
 /* ---------- Project page ---------- */
@@ -1259,7 +1297,7 @@ html:not(.js) .textarea-grip { display: none; }
   bottom: 20px;
   transform: translateX(-50%);
   display: flex;
-  gap: 6px;
+  gap: 14px;
 }
 .slider-dots .dot { border-color: rgba(16, 24, 40, .35); background: rgba(255, 255, 255, .9); }
 .slider-dots .dot.is-active { width: 28px; border-color: var(--blue); background: var(--blue); }
@@ -1661,7 +1699,7 @@ section[tabindex="-1"]:focus { outline: none; } /* focus moved here after a jump
   .site-nav li { height: auto; }
   .site-nav a,
   .is-scrolled .site-nav a { height: auto; padding: 15px 24px; color: var(--heading); }
-  .site-nav a.is-current { color: var(--blue); }
+  .site-nav a.is-current { color: var(--blue-strong); }
   .site-nav a::after { display: none; }
 
   .about-content,

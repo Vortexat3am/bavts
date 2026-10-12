@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pages for search engines to find. When you add a project to js/projects.js,
+     copy one of the project.html lines below and change the id at the end. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://bavtsbackstacks.org/</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://bavtsbackstacks.org/portfolio</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://bavtsbackstacks.org/project?id=bavts</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://bavtsbackstacks.org/project?id=primera</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://bavtsbackstacks.org/project?id=freezer-ministry</loc>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+</urlset>

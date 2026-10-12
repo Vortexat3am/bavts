@@ -102,10 +102,16 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
     </button>
 
-    <div class="slide-dots" role="group" aria-label="Choose slide">
-      <button class="dot is-active" aria-label="Slide 1"></button>
-      <button class="dot" aria-label="Slide 2"></button>
-      <button class="dot" aria-label="Slide 3"></button>
+    <div class="slide-controls">
+      <button class="slide-pause" type="button" aria-label="Pause slideshow">
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>
+      </button>
+      <div class="slide-dots" role="group" aria-label="Choose slide">
+        <button class="dot is-active" aria-label="Slide 1"></button>
+        <button class="dot" aria-label="Slide 2"></button>
+        <button class="dot" aria-label="Slide 3"></button>
+      </div>
     </div>
 
     <a class="next-section" href="#about" aria-label="Scroll to content">
