@@ -1,7 +1,24 @@
-RewriteEngine On 
-RewriteCond %{HTTPS} off 
+RewriteEngine On
+RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Short project links: my-domain.com/projects/primera forwards to project.html?id=primera
+# ---------- Clean addresses: no "index.html" or ".html" in the address bar ----------
+# (The site's own links still say portfolio.html etc., so it works when opened on a computer;
+#  on the server those addresses forward to the clean version.)
+
+# my-domain.com/index.html  ->  my-domain.com/
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ /$1 [R=301,L,NE]
+
+# my-domain.com/portfolio.html  ->  my-domain.com/portfolio   (keeps ?id=... on project pages)
+RewriteCond %{THE_REQUEST} \s/+([^\s?]+)\.html[\s?] [NC]
+RewriteRule ^(.+)\.html$ /$1 [R=301,L,NE]
+
+# my-domain.com/portfolio  ->  shows portfolio.html behind the scenes
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
+# Short project links: my-domain.com/projects/primera forwards to /project?id=primera
 # (the word after /projects/ is the project's id in js/projects.js)
-RewriteRule ^projects/([A-Za-z0-9_-]+)/?$ /project.html?id=$1 [R=302,L]
+RewriteRule ^projects/([A-Za-z0-9_-]+)/?$ /project?id=$1 [R=302,L]
