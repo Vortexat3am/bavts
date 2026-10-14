@@ -4,7 +4,7 @@
 // Everything the visitor typed is cleaned first, so nobody can sneak extra email headers in
 // (a common way spammers abuse contact forms).
 
-$to = 'houghe@bavts.org';
+$to = 'info@bavts.org';
 
 // The form only checks for the exact word "sent", so PHP warnings must never be printed into the reply
 // (they still go to the server's error log).

@@ -494,7 +494,7 @@ function initContactForm() {
       status.textContent = "Your message has been sent successfully.";
       status.classList.add("is-success");
     } catch {
-      status.textContent = "Sorry, an error occurred sending your message. Please email houghe@bavts.org directly.";
+      status.textContent = "Sorry, an error occurred sending your message. Please email info@bavts.org directly.";
       status.classList.add("is-error");
     } finally {
       button.disabled = false;
